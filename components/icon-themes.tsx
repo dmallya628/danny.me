@@ -25,5 +25,5 @@ export default function ThemedIcon({
       break;
   }
 
-  return <Image src={source} alt="icon" width={500} height={500} />;
+  return <Image src={source} alt="icon" width={500} height={500} suppressHydrationWarning />;
 }

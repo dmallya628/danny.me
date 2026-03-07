@@ -41,7 +41,7 @@ export default function Navbar({
           {formatDateTime(is24Hour)}
         </span>
         <br></br>
-        <button className="cursor-pointer rounded-lg px-4 py-2 outline-[1.5] outline-black shadow-md hover:scale-[1.08] transition-transform duration-200 ease-in-out bg-[var(--primary-mute)] text-[var(--background)]">
+        <button className="cursor-pointer rounded-xs px-4 py-2 outline-[3] outline-black shadow-md hover:scale-[1.08] transition-transform duration-200 ease-in-out bg-[var(--primary-mute)] text-[var(--background)]">
           {is24Hour ? "12H" : "24H"}
         </button>
       </div>

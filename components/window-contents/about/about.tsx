@@ -6,7 +6,7 @@ export default function About() {
   return (
     <div className="p-4 font-[family-name:var(--font-inter)] space-y-7 antialiased">
       {/* image + bio */}
-      <div className="flex flex-col md:flex-row rounded-xl bg-[var(--bg-dark)] shadow-lg border border-[var(--window-border)] items-center md:items-start gap-5 px-3 py-6">
+      <div className="flex flex-col md:flex-row rounded-sm bg-[var(--bg-dark)] shadow-lg border border-[var(--window-border)] items-center md:items-start gap-5 px-3 py-6">
         {/* avatar */}
         <div className="w-32 h-32 shrink-0 ml-2">
           {
