@@ -1,52 +1,43 @@
 @import "tailwindcss";
 
 [data-theme="light"] {
-  --foreground: #000e08;
+  /* surfaces */
+  --surface-card: #FEF6ED;
+  --surface-frame: #FFEEDB;
+  --surface-frame-card: #FBE4CE;
+  --surface-hover: #FFEAC1;
 
-  --background: #ffeedb;
-  --bg-dark: #fbe4ce;
-  --bg-border: #edd7bf;
-  --bg-darker: #d2aa88;
-  --bg-window: #f9d9c1;
-  --bg-saturated: #f4c8ac;
+  /* greens */
+  --desktop-base: #7E8450;
+  --accent-core: #899243;
 
-  --window-border: #black;
+  /* amber */
+  --title-bar: #E6B14C;
 
-  --primary: #1e5b4c;
-  --primary-mute: #386c5e;
-  --primary-muter: #d2d0be;
+  /* reds */
+  --standard-action: #D16D57;
+  --system-close: #9A1441;
+  --pressed-state: #702020;
 
-  --secondary: #e1885c;
+  /* neutrals */
+  --disabled: #D3CDCD;
+  --mid-gray: #949393;
+  --near-black: #000F08;
 
-  --accent: #4b061d;
-  --accent-exit: #9a1441;
+  /* graphics */
+  --badge-red: #B54F39;
+  --badge-blue: #5170D5;
+
+  /* layout */
+  --taskbar-height: 2.5rem;
 }
 
 [data-theme="dark"] {
-  --foreground: #e8e5da;
 
-  --background: #30302e;
-  --bg-dark: #262624;
-  --bg-border: #353534;
-  --bg-darker: #252525;
-  --bg-window: #1e1e1e;
-  --bg-saturated: #4a4a4a;
-
-  --primary: #48c0a3;
-  --primary-mute: #252525;
-
-  --window-border: #5a5a5a;
-
-  --secondary: #ff9673;
-
-  --accent: #fb96b8;
-  --accent-exit: #d61c5a;
 }
 
 [data-theme="mono"] {
-  --foreground: white;
 
-  --background: black;
 }
 
 @theme inline {

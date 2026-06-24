@@ -1,12 +1,12 @@
 import Image from "next/image";
-import ProjectCard from "./project-card";
+import EducationCard from "./edu-card";
 import ConnectCard from "./connect-card";
 
 export default function About() {
   return (
     <div className="p-4 font-[family-name:var(--font-inter)] space-y-7 antialiased">
       {/* image + bio */}
-      <div className="flex flex-col md:flex-row rounded-sm bg-[var(--bg-dark)] shadow-lg border border-[var(--window-border)] items-center md:items-start gap-5 px-3 py-6">
+      <div className="flex flex-col md:flex-row rounded-sm bg-[var(--window-card)] shadow-lg border border-[var(--window-border)] items-center md:items-start gap-5 px-3 py-6">
         {/* avatar */}
         <div className="w-32 h-32 shrink-0 ml-2">
           {
@@ -28,31 +28,31 @@ export default function About() {
           </p>
         </div>
       </div>
-      {/* projects section */}
-      <div className="flex flex-col rounded-xl bg-[var(--bg-dark)] shadow-lg border border-[var(--window-border)] text-center md:text-left px-4 py-4">
-        <h3 className="font-bold text-2xl px-2 py-2">Projects</h3>
+      {/* education section */}
+      <div className="flex flex-col rounded-xl bg-[var(--window-card)] shadow-lg border border-[var(--window-border)] text-center md:text-left px-4 py-4">
+        <h3 className="font-bold text-2xl px-2 py-2">Education</h3>
         <hr className="-mx-4 my-3 w-auto border-t border-[var(--window-border)] mb-6" />
         {/* content */}
         <div className="flex flex-col">
-          <ProjectCard
+          <EducationCard
             heading="Soundscape"
             year="2025"
             subtext="C#, Unity 3D, Python, EEG Data"
             link="https://github.com/ph4nT0m-d4n1/IMDM290_Soundscape"
           />
-          <ProjectCard
+          <EducationCard
             heading="WeatherFIT"
             year="2025"
             subtext="Python, Weather API Data"
             link="https://github.com/ph4nT0m-d4n1/INST326_WeatherFIT"
           />
-          <ProjectCard
+          <EducationCard
             heading="TOKKARI 2D"
             year="2024"
             subtext="C#, Unity 2D"
             link="https://github.com/ph4nT0m-d4n1/IMDM227_Tokkari"
           />
-          <ProjectCard
+          <EducationCard
             heading="Project BEE VR"
             year="2023"
             subtext="C#, Unity VR"
@@ -61,7 +61,7 @@ export default function About() {
         </div>
       </div>
       {/* connections section */}
-      <div className="flex flex-col rounded-xl bg-[var(--bg-dark)] shadow-lg border border-[var(--window-border)] text-center md:text-left px-4 py-5">
+      <div className="flex flex-col rounded-xl bg-[var(--window-card)] shadow-lg border border-[var(--window-border)] text-center md:text-left px-4 py-5">
         <h3 className="font-bold text-2xl px-2 py-2">Let's Connect!</h3>
         <hr className="-mx-4 my-3 w-auto border-t border-[var(--window-border)] mb-4" />
         {/* content */}
@@ -93,7 +93,7 @@ export default function About() {
         </div>
       </div>
       {/* about section*/}
-      <div className="flex flex-col rounded-xl bg-[var(--bg-dark)] shadow-lg border border-[var(--window-border)] text-center md:text-left px-4 py-5">
+      <div className="flex flex-col rounded-xl bg-[var(--window-card)] shadow-lg border border-[var(--window-border)] text-center md:text-left px-4 py-5">
         <h3 className="font-bold text-2xl px-2 py-2">About</h3>
         <hr className="-mx-4 my-3 w-auto border-t border-[var(--window-border)] mb-4"/>
         <div className="flex flex-col font-medium text-lg px-3 py-2 gap-y-3">

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function Navbar({
   is24Hour,
+  
 }: {
   is24Hour: boolean;
 }) {
@@ -34,15 +35,14 @@ export default function Navbar({
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-11 md:h-20 bg-[var(--bg-dark)] text-[var(--foreground)] flex justify-between items-center px-3 md:px-6 text-xs md:text-sm shadow-sm border border-[var(--bg-border)] z-60">
-      <span className="font-bold md:text-base">D.ME</span>
+    <div className="fixed top-0 left-0 right-0 md:h-20 bg-[var(--light-accent)] text-[var(--foreground)] flex justify-between items-center px-3 md:px-6 text-xs md:text-sm shadow-sm border border-[var(--bg-border)] z-60">
+      <span className="font-black md:text-base">D.ME</span>
       <div className="flex items-center gap-4">
         <span className="font-medium md:text-base" suppressHydrationWarning>
           {formatDateTime(is24Hour)}
         </span>
-        <br></br>
-        <button className="cursor-pointer rounded-xs px-4 py-2 outline-[3] outline-black shadow-md hover:scale-[1.08] transition-transform duration-200 ease-in-out bg-[var(--primary-mute)] text-[var(--background)]">
-          {is24Hour ? "12H" : "24H"}
+        <button className="font-bold cursor-pointer rounded-xs px-3 py-1.5 mx-5 outline-[3] outline-black shadow-md hover:scale-[1.08] transition-transform duration-200 ease-in-out bg-[var(--window-accent)]">
+          ENG {/* isEng ? "ENG" : "{INSERT LANGUAGE}" */}
         </button>
       </div>
     </div>

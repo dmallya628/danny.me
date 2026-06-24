@@ -22,7 +22,7 @@ export default function Window({
 }) {
   return (
     <motion.div
-      className="fixed bg-[var(--bg-darker)] items-center w-[90vw] max-w-[500px] h-[80vh] max-h-[400px] md:max-h-[500px] rounded-xs shadow-xl"
+      className="fixed bg-[var(--window-accent)] items-center w-[90vw] max-w-[500px] h-[80vh] max-h-[400px] md:max-h-[500px] rounded-xs shadow-xl"
       style={{
         zIndex,
         top: "20%",
@@ -48,11 +48,11 @@ export default function Window({
         <div className="px-3 py-2 cursor-default -mr-4">
           <button
             onClick={onClose}
-            className="cursor-pointer w-8 h-8 bg-[var(--accent-exit)] border border-[var(--window-border)] text-sm font-light text-black rounded-sm font-bold flex items-center justify-center focus:outline-none transition-colors"
+            className="cursor-pointer w-8 h-8 bg-[var(--exit-button-bg)] border border-[var(--window-border)] text-sm font-light text-black rounded-sm font-bold flex items-center justify-center focus:outline-none transition-colors"
           >
             <Image
               src={"/window/exit.svg"}
-              alt="exit button"
+              alt="exit"
               height={100}
               width={100}
             />

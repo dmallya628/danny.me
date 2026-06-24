@@ -5,7 +5,6 @@ import { useState, useRef } from "react";
 
 import {
   AboutIcon,
-  HeartIcon,
   PortfolioIcon,
   SettingsIcon,
   StudioIcon,
@@ -90,12 +89,6 @@ export default function Page() {
           </div>
           <div className="flex flex-col gap-[2rem] font-mono font-semibold ml-auto">
             {/* right desktop icons */}
-            <HeartIcon
-              onClick={() => {
-                setIsSettingsOpen(true);
-                bringWindowToFront("settings");
-              }}
-            />
             <TicTacIcon
               onClick={() => {
                 setIsAboutOpen(true);

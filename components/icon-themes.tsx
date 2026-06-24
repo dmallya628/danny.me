@@ -11,7 +11,7 @@ export default function ThemedIcon({
   monochrome?: string;
 }) {
   const { resolvedTheme, theme } = useTheme();
-  let source;
+  let source = light;
 
   switch (resolvedTheme) {
     case "light":
@@ -21,9 +21,18 @@ export default function ThemedIcon({
       source = dark;
       break;
     default:
-      source = (theme === "light" ? dark : light);
+      source = theme === "dark" ? dark : light;
       break;
   }
 
-  return <Image src={source} alt="icon" width={500} height={500} suppressHydrationWarning />;
+  return (
+    <Image
+      src={source}
+      alt="icon"
+      width={64}
+      height={64}
+      className="h-full w-full object-contain"
+      suppressHydrationWarning
+    />
+  );
 }
