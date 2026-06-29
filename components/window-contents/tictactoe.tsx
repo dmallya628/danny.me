@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Portfolio() {
+export default function TicTacToe() {
   return (
     <div>
-        <p className="text-black">tictactoe game lol</p>
+        <p className="text-black">tictactoe game</p>
     </div>
   ) 
 }

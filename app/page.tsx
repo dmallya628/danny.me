@@ -9,10 +9,11 @@ import {
   SettingsIcon,
   StudioIcon,
   TicTacIcon,
-} from "@/components/icon-library";
+} from "@/components/icons/icon-library";
 
 import Navbar from "@/components/navbar";
 import Window from "@/components/window";
+
 import About from "@/components/window-contents/about/about";
 import Portfolio from "@/components/window-contents/portfolio";
 import Settings from "@/components/window-contents/settings/settings";
@@ -22,6 +23,7 @@ import TicTacToe from "@/components/window-contents/tictactoe";
 export default function Page() {
   const desktopRef = useRef<HTMLDivElement>(null);
 
+  // system settings functions
   const [is24Hour, set24Hour] = useState(false);
   const [automaticTimeZone, setAutomaticTimeZone] = useState(true);
 
@@ -39,7 +41,7 @@ export default function Page() {
     settings: 1003,
     tictactoe: 1004,
   });
-  const [highestZIndex, setHighestZIndex] = useState(1004); //this is currently hardcoded
+  const [highestZIndex, setHighestZIndex] = useState(1004); //add a state variable to track the highest z-index value
 
   const bringWindowToFront = (windowKey: keyof typeof windowZIndex) => {
     const newZIndex = highestZIndex + 1;
@@ -104,8 +106,9 @@ export default function Page() {
         <AnimatePresence>
           {isAboutOpen && (
             <Window
+              favIcon ="/window/title-bar-icons/file.svg"
               key="about"
-              title="about"
+              title="about.pdf"
               onClose={() => setIsAboutOpen(false)}
               dragContainerRef={desktopRef}
               zIndex={windowZIndex.about}
@@ -116,6 +119,7 @@ export default function Page() {
           )}
           {isPortfolioOpen && (
             <Window
+              favIcon="/window/title-bar-icons/folder.svg"
               key="portfolio"
               title="portfolio"
               onClose={() => setIsPortfolioOpen(false)}
@@ -128,6 +132,7 @@ export default function Page() {
           )}
           {isStudioOpen && (
             <Window
+              favIcon="/window/title-bar-icons/disc-temp.svg"
               key="studio"
               title="studio"
               onClose={() => setIsStudioOpen(false)}
@@ -140,6 +145,7 @@ export default function Page() {
           )}
           {isSettingsOpen && (
             <Window
+              favIcon="/window/title-bar-icons/settings.svg"
               key="site preferences"
               title="site preferences"
               onClose={() => setIsSettingsOpen(false)}
@@ -157,6 +163,7 @@ export default function Page() {
           )}
           {isTicTacToeOpen && (
             <Window
+              favIcon="/window/title-bar-icons/grid.svg"
               key="tictactoe"
               title="tictactoe"
               onClose={() => setIsTicTacToeOpen(false)}

@@ -1,7 +1,8 @@
 "use client";
 
 import SettingCard from "./setting-card";
-import ThemeSwitch from "../../theme-switch";
+import ThemeSwitch from "./theme-switch";
+import LangSwitch from "./lang-switch";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import styles from "@/styles/toggle.module.css";
@@ -26,11 +27,9 @@ export default function Settings({
 
   const toggle24hour = () => set24Hour(!is24Hour);
 
-  const [eng, setEng] = useState(true);
-  const toggleEng = () => setEng(!eng);
-
   return (
     <div className="p-4 font-[family-name:var(--font-inter)] space-y-12 antialiased">
+      {/* Appearance */}
       <SettingCard key="Appearance" title="Appearance">
         <div className="relative flex w-full items-center">
           <h4 className="font-semibold text-lg">Theme</h4>
@@ -61,6 +60,7 @@ export default function Settings({
           </div>
         </div>
       </SettingCard>
+
       {/* Date & Time */}
       <SettingCard key="Date & Time" title="Date & Time">
         {/* Automatic Time Zone Toggle */}
@@ -112,45 +112,10 @@ export default function Settings({
           </div>
         </div>
       </SettingCard>
+
+      {/* Language Settings */}
       <SettingCard key="Language" title="Language">
-        <div className="relative flex w-full items-center">
-          <h4 className="font-semibold text-lg">English</h4>
-          <div className="ml-auto border-2 rounded-full w-6 h-6">
-            <button
-              className={clsx(
-                "w-full h-full rounded-full cursor-pointer transition-colors duration-125 ease-in-out",
-                { "bg-[var(--primary)]": eng },
-              )}
-              onClick={toggleEng}
-            >
-              <div
-                className={clsx(
-                  "w-1/2 h-1/2 justify-self-center self-center rounded-full transition-colors duration-125 ease-in-out",
-                  { "bg-white": eng },
-                )}
-              />
-            </button>
-          </div>
-        </div>
-        <div className="relative flex w-full items-center">
-          <h4 className="font-semibold text-lg">한국어</h4>
-          <div className="ml-auto border-2 rounded-full w-6 h-6">
-            <button
-              className={clsx(
-                "w-full h-full rounded-full cursor-pointer transition-colors duration-125 ease-in-out",
-                { "bg-[var(--primary)]": !eng },
-              )}
-              onClick={toggleEng}
-            >
-              <div
-                className={clsx(
-                  "w-1/2 h-1/2 justify-self-center self-center rounded-full transition-colors duration-125 ease-in-out",
-                  { "bg-white": !eng },
-                )}
-              />
-            </button>
-          </div>
-        </div>
+          <LangSwitch />
       </SettingCard>
     </div>
   );

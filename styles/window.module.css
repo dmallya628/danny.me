@@ -28,6 +28,11 @@
 .windowCard {
   background-color: var(--surface-frame-card);
   color: var(--near-black);
+  font-family: var(--font-space-grotesk);
   border-radius: 4px;
+  border: 0.17rem solid;
+  border-color: var(--near-black);
 }
+
+
 

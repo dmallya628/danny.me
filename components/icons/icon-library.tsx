@@ -1,4 +1,4 @@
-import ThemedIcon from "./icon-themes";
+import ThemedIcon from "./themed-icon";
 import DesktopIcon from "./desktop-icon";
 
 export function AboutIcon({ onClick }: { onClick: () => void }) {

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Space_Grotesk, IBM_Plex_Mono, Inter, Gasoek_One} from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "@/styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -13,14 +13,21 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["100","200", "300", "400", "500", "600", "700"],
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+});
+
+const gasoekOne = Gasoek_One({
+  weight: "400",
+  variable: "--font-gasoek-one",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "danny.me",
-  description: "my yummy portfolio",
+  title: "D.ME",
+  description: "my portfolio website!",
 };
 
 export default function RootLayout({
@@ -29,14 +36,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geistMono.className} suppressHydrationWarning>
+    <html lang="en" className={ibmPlexMono.className} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased max-h-screen`}
+        className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${inter.variable} ${gasoekOne.variable} antialiased max-h-screen`}
       >
+        {/* change default theme to "system" after dark mode update */}
         <ThemeProvider
           enableSystem={true}
           enableColorScheme={true}
-          defaultTheme="system"
+          defaultTheme="light"
         >
           {children}
         </ThemeProvider>

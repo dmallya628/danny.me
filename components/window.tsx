@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { RefObject } from "react";
 import styles from "@/styles/window.module.css";
 import Image from "next/image";
-import ThemedIcon from "./icon-themes";
+import ThemedIcon from "./icons/themed-icon";
 
 export default function Window({
   favIcon,
@@ -15,7 +15,7 @@ export default function Window({
   zIndex = 1000,
   focus,
 }: {
-  favIcon: React.ReactNode;
+  favIcon: string;
   title: string;
   onClose: () => void;
   children: React.ReactNode;
@@ -42,17 +42,19 @@ export default function Window({
       onDragStart={focus}
       whileDrag={{ cursor: "grabbing" }}
     >
-      {/* title bar FFEEDB */}
+      {/* title bar */}
       <div
-        className="h-12 bg-[var(--title-bar)] text-[var(--near-black] flex flex-row justify-between items-center rounded-t-sm px-4 py-3 cursor-grab active:cursor-grabbing border-[2.5]"
+        className="h-14 bg-[var(--title-bar)] text-[var(--near-black] flex flex-row justify-between items-center rounded-t-sm px-4 py-3 cursor-grab active:cursor-grabbing border-[2.5]"
         onPointerDown={focus}
       >
-        {/* <ThemedIcon light="" dark="" /> */}
-        <span className="flex text-sm font-mono font-semibold">{title}</span>
+        <div className="flex items-center">
+          <Image src={favIcon} alt={title} height={35} width={35} />
+        </div>
+        <span className="flex-1 mx-3 text-medium font-mono font-semibold">{title}</span>
         <div className="px-3 py-2 cursor-default -mr-4">
           <button
             onClick={onClose}
-            className="cursor-pointer w-8 h-8 bg-[var(--system-close)] border border-[var(--near-black)] text-sm font-light text-black rounded-sm font-bold flex items-center justify-center focus:outline-none transition-colors"
+            className="cursor-pointer w-8 h-8 bg-[var(--system-close)] border-2 border-[var(--near-black)] rounded-[3px] flex items-center justify-center focus:outline-none transition-colors"
           >
             <Image
               src={"/window/system-elements/exit.svg"}
