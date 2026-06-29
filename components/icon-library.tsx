@@ -7,7 +7,7 @@ export function AboutIcon({ onClick }: { onClick: () => void }) {
       title="about.pdf"
       icon={
         <ThemedIcon
-          light="/light/desktop/file.svg"
+          light="/light/desktop/no-shadow/file.svg"
           dark="dark/desktop/file.svg"
         />
       }
@@ -22,7 +22,7 @@ export function PortfolioIcon({ onClick }: { onClick: () => void }) {
       title="portfolio"
       icon={
         <ThemedIcon
-          light="light/desktop/folder.svg"
+          light="/light/desktop/no-shadow/folder.svg"
           dark="dark/desktop/folder.svg"
         />
       }
@@ -38,7 +38,7 @@ export function StudioIcon({ onClick }: { onClick: () => void }) {
       title="studio_"
       icon={
         <ThemedIcon
-          light="light/desktop/studio_loading.svg"
+          light="/light/desktop/no-shadow/disc-temp.svg"
           dark="dark/desktop/studio_loading.svg"
         />
       }
@@ -53,7 +53,7 @@ export function SettingsIcon({ onClick }: { onClick: () => void }) {
       title="settings"
       icon={
         <ThemedIcon
-          light="light/desktop/settings.svg"
+          light="/light/desktop/no-shadow/settings.svg"
           dark="dark/desktop/settings.svg"
         />
       }
@@ -68,7 +68,7 @@ export function TicTacIcon({ onClick }: { onClick: () => void }) {
       title="tictactoe"
       icon={
         <ThemedIcon
-          light="light/desktop/tictactoe.svg"
+          light="/light/desktop/no-shadow/grid.svg"
           dark="dark/desktop/tictactoe.svg"
         />
       }

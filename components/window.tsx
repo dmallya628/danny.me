@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { RefObject } from "react";
 import styles from "@/styles/window.module.css";
 import Image from "next/image";
+import ThemedIcon from "./icon-themes";
 
 export default function Window({
+  favIcon,
   title,
   onClose,
   children,
@@ -13,6 +15,7 @@ export default function Window({
   zIndex = 1000,
   focus,
 }: {
+  favIcon: React.ReactNode;
   title: string;
   onClose: () => void;
   children: React.ReactNode;
@@ -41,17 +44,18 @@ export default function Window({
     >
       {/* title bar FFEEDB */}
       <div
-        className="h-12 text-[var(--foreground)] flex flex-row justify-between items-center rounded-t-sm px-4 py-3 cursor-grab active:cursor-grabbing border-[2.5]"
+        className="h-12 bg-[var(--title-bar)] text-[var(--near-black] flex flex-row justify-between items-center rounded-t-sm px-4 py-3 cursor-grab active:cursor-grabbing border-[2.5]"
         onPointerDown={focus}
       >
-        <span className="text-sm font-mono font-semibold">{title}</span>
+        {/* <ThemedIcon light="" dark="" /> */}
+        <span className="flex text-sm font-mono font-semibold">{title}</span>
         <div className="px-3 py-2 cursor-default -mr-4">
           <button
             onClick={onClose}
-            className="cursor-pointer w-8 h-8 bg-[var(--exit-button-bg)] border border-[var(--window-border)] text-sm font-light text-black rounded-sm font-bold flex items-center justify-center focus:outline-none transition-colors"
+            className="cursor-pointer w-8 h-8 bg-[var(--system-close)] border border-[var(--near-black)] text-sm font-light text-black rounded-sm font-bold flex items-center justify-center focus:outline-none transition-colors"
           >
             <Image
-              src={"/window/exit.svg"}
+              src={"/window/system-elements/exit.svg"}
               alt="exit"
               height={100}
               width={100}

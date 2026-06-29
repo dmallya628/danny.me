@@ -1,22 +1,33 @@
 .windowContent {
   height: calc(100% - 3rem);
-  background-color: var(--window-bg);
+  background-color: var(--surface-frame);
+  color: var(--near-black);
 }
 
 .windowContent::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 1rem;
 }
 
 .windowContent::-webkit-scrollbar-thumb {
-  background-color: var(--accent);
-  border-radius: 1rem;
+  background-color: var(--mid-gray);
 }
 
 .windowContent::-webkit-scrollbar-track {
-  background-color: #dbd9db;
+  background-color: var(--surface-card);
   box-shadow: inset 1px 0 2px 0 rgba(0, 0, 0, 0.3);
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
-  border-radius: 1rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.windowContent::-webtkit-scrollbar-button {
+  background-color: var(--surface-card);
+  width: 1rem;
+  height: 1rem;
+}
+
+.windowCard {
+  background-color: var(--surface-frame-card);
+  color: var(--near-black);
+  border-radius: 4px;
 }
 

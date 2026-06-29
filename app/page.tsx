@@ -17,6 +17,7 @@ import About from "@/components/window-contents/about/about";
 import Portfolio from "@/components/window-contents/portfolio";
 import Settings from "@/components/window-contents/settings/settings";
 import Studio from "@/components/window-contents/studio";
+import TicTacToe from "@/components/window-contents/tictactoe";
 
 export default function Page() {
   const desktopRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,7 @@ export default function Page() {
   const [isStudioOpen, setIsStudioOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
+  const [isTicTacToeOpen, setIsTicTacToeOpen] = useState(false);
 
   //z-index management for window stacking
   const [windowZIndex, setWindowZIndex] = useState({
@@ -35,8 +37,9 @@ export default function Page() {
     portfolio: 1001,
     studio: 1002,
     settings: 1003,
+    tictactoe: 1004,
   });
-  const [highestZIndex, setHighestZIndex] = useState(1003);
+  const [highestZIndex, setHighestZIndex] = useState(1004); //this is currently hardcoded
 
   const bringWindowToFront = (windowKey: keyof typeof windowZIndex) => {
     const newZIndex = highestZIndex + 1;
@@ -91,8 +94,8 @@ export default function Page() {
             {/* right desktop icons */}
             <TicTacIcon
               onClick={() => {
-                setIsAboutOpen(true);
-                bringWindowToFront("settings");
+                setIsTicTacToeOpen(true);
+                bringWindowToFront("tictactoe");
               }}
             />
           </div>
@@ -150,6 +153,18 @@ export default function Page() {
                 automaticTimeZone={automaticTimeZone}
                 setAutomaticTimeZone={setAutomaticTimeZone}
               />
+            </Window>
+          )}
+          {isTicTacToeOpen && (
+            <Window
+              key="tictactoe"
+              title="tictactoe"
+              onClose={() => setIsTicTacToeOpen(false)}
+              dragContainerRef={desktopRef}
+              zIndex={windowZIndex.tictactoe}
+              focus={() => bringWindowToFront("tictactoe")}
+            >
+              <TicTacToe />
             </Window>
           )}
         </AnimatePresence>

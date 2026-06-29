@@ -24,12 +24,10 @@ export default function Settings({
   const toggleAutomaticTimeZone = () =>
     setAutomaticTimeZone(!automaticTimeZone);
 
-  const toggle24hour = () =>
-    set24Hour(!is24Hour);
+  const toggle24hour = () => set24Hour(!is24Hour);
 
   const [eng, setEng] = useState(true);
   const toggleEng = () => setEng(!eng);
-
 
   return (
     <div className="p-4 font-[family-name:var(--font-inter)] space-y-12 antialiased">
@@ -121,14 +119,14 @@ export default function Settings({
             <button
               className={clsx(
                 "w-full h-full rounded-full cursor-pointer transition-colors duration-125 ease-in-out",
-                { "bg-[var(--primary)]": eng }
+                { "bg-[var(--primary)]": eng },
               )}
               onClick={toggleEng}
             >
               <div
                 className={clsx(
                   "w-1/2 h-1/2 justify-self-center self-center rounded-full transition-colors duration-125 ease-in-out",
-                  { "bg-white": eng }
+                  { "bg-white": eng },
                 )}
               />
             </button>
@@ -140,14 +138,14 @@ export default function Settings({
             <button
               className={clsx(
                 "w-full h-full rounded-full cursor-pointer transition-colors duration-125 ease-in-out",
-                { "bg-[var(--primary)]": !eng }
+                { "bg-[var(--primary)]": !eng },
               )}
               onClick={toggleEng}
             >
               <div
                 className={clsx(
                   "w-1/2 h-1/2 justify-self-center self-center rounded-full transition-colors duration-125 ease-in-out",
-                  { "bg-white": !eng }
+                  { "bg-white": !eng },
                 )}
               />
             </button>
