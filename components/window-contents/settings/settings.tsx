@@ -11,19 +11,19 @@ import clsx from "clsx";
 export default function Settings({
   is24Hour,
   set24Hour,
-  automaticTimeZone,
+  isAutomaticTimeZone,
   setAutomaticTimeZone,
 }: {
   is24Hour: boolean;
   set24Hour: (value: boolean) => void;
-  automaticTimeZone: boolean;
+  isAutomaticTimeZone: boolean;
   setAutomaticTimeZone: (value: boolean) => void;
 }) {
   const [animationOn, setAnimationOn] = useState(true);
   const toggleAnimation = () => setAnimationOn(!animationOn);
 
   const toggleAutomaticTimeZone = () =>
-    setAutomaticTimeZone(!automaticTimeZone);
+    setAutomaticTimeZone(!isAutomaticTimeZone);
 
   const toggle24hour = () => set24Hour(!is24Hour);
 
@@ -71,8 +71,8 @@ export default function Settings({
           <div className="ml-auto">
             <button
               className={clsx(styles.toggleContainer, {
-                [styles.on]: automaticTimeZone,
-                [styles.off]: !automaticTimeZone,
+                [styles.on]: isAutomaticTimeZone,
+                [styles.off]: !isAutomaticTimeZone,
               })}
               onClick={toggleAutomaticTimeZone}
             >

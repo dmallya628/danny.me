@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Mono, Inter, Gasoek_One} from "next/font/google";
+import {
+  Space_Grotesk,
+  IBM_Plex_Mono,
+  Inter,
+  Gasoek_One,
+} from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "@/styles/globals.css";
+import { NextIntlClientProvider } from "next-intl";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -14,7 +20,7 @@ const inter = Inter({
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
-  weight: ["100","200", "300", "400", "500", "600", "700"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
 });
@@ -40,14 +46,16 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${inter.variable} ${gasoekOne.variable} antialiased max-h-screen`}
       >
-        {/* change default theme to "system" after dark mode update */}
-        <ThemeProvider
-          enableSystem={true}
-          enableColorScheme={true}
-          defaultTheme="light"
-        >
-          {children}
-        </ThemeProvider>
+        <NextIntlClientProvider>
+          {/* change default theme to "system" after dark mode update */}
+          <ThemeProvider
+            enableSystem={true}
+            enableColorScheme={true}
+            defaultTheme="light"
+          >
+            {children}
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

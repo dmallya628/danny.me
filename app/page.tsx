@@ -2,7 +2,6 @@
 
 import { AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
-
 import {
   AboutIcon,
   PortfolioIcon,
@@ -20,12 +19,12 @@ import Settings from "@/components/window-contents/settings/settings";
 import Studio from "@/components/window-contents/studio";
 import TicTacToe from "@/components/window-contents/tictactoe";
 
-export default function Page() {
+export default function HomePage() {
   const desktopRef = useRef<HTMLDivElement>(null);
 
   // system settings functions
   const [is24Hour, set24Hour] = useState(false);
-  const [automaticTimeZone, setAutomaticTimeZone] = useState(true);
+  const [isAutoTimeZone, setAutoTimeZone] = useState(true);
 
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isStudioOpen, setIsStudioOpen] = useState(false);
@@ -52,9 +51,10 @@ export default function Page() {
     setHighestZIndex(newZIndex);
   };
 
+  
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-mono)]">
-      <Navbar is24Hour={is24Hour} />
+      <Navbar is24Hour={is24Hour} isAutoTimeZone={isAutoTimeZone} />
       <div
         ref={desktopRef}
         className="fixed w-full top-10 desktop-content"
@@ -156,8 +156,8 @@ export default function Page() {
               <Settings
                 is24Hour={is24Hour}
                 set24Hour={set24Hour}
-                automaticTimeZone={automaticTimeZone}
-                setAutomaticTimeZone={setAutomaticTimeZone}
+                isAutomaticTimeZone={isAutoTimeZone}
+                setAutomaticTimeZone={setAutoTimeZone}
               />
             </Window>
           )}

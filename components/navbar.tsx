@@ -1,9 +1,12 @@
 "use client";
 
+import {useFormatter} from 'next-intl';
 import styles from "@/styles/nav.module.css";
 import TimeSwitch from "./window-contents/settings/time-switch";
+import {useLocaleSwitch} from "./window-contents/settings/locale-switch";
 
-export default function Navbar({ is24Hour }: { is24Hour: boolean }) {
+export default function Navbar({ is24Hour, isAutoTimeZone }: { is24Hour: boolean; isAutoTimeZone: boolean }) {
+  const format = useFormatter();
 
   return (
     <div
@@ -12,10 +15,10 @@ export default function Navbar({ is24Hour }: { is24Hour: boolean }) {
       <span className="text-xl font-[family-name:var(--font-gasoek-one)]">D.ME</span>
       <div className="flex items-center gap-4">
         <span className="font-semibold text-base font-[family-name:var(--font-ibm-plex-mono)]" suppressHydrationWarning>
-          <TimeSwitch is24Hour={is24Hour} />
+          <TimeSwitch is24Hour={is24Hour} isAutoTimeZone={isAutoTimeZone} />
         </span>
         <button className="font-black cursor-pointer rounded-xs px-3 py-1.5 mx-5 outline-[3] outline-black shadow-md hover:scale-[1.08] transition-transform duration-200 ease-in-out bg-[var(--title-bar)] font-[family-name:var(--font-space-grotesk)]">
-          ENG {/* isEng ? "ENG" : "{INSERT LANGUAGE}" */}
+          {`ENG` /* {`${format.displayName("en", {type: "script" })}`} */}
         </button>
       </div>
     </div>

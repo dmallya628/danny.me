@@ -2,6 +2,7 @@ import Image from "next/image";
 import EducationCard from "./edu-card";
 import ConnectCard from "./connect-card";
 import styles from "@/styles/window.module.css";
+import {useTranslations} from "next-intl";
 
 export default function About() {
   return (

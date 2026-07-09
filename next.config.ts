@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
 };
 
-module.exports = {
-  allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev'],
-}
+const withNextIntl = createNextIntlPlugin();
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
