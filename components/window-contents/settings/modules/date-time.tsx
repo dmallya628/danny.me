@@ -1,11 +1,15 @@
+'use client'
+
 import { useState, useEffect } from "react";
 
-export default function TimeSwitch({
+export default function DateTime({
   is24Hour,
   isAutoTimeZone,
+  manualTimeZone,
 }: {
   is24Hour: boolean;
   isAutoTimeZone: boolean;
+  manualTimeZone: string;
 }) {
   const [date, setDate] = useState(new Date());
 
@@ -17,10 +21,7 @@ export default function TimeSwitch({
   }, []);
 
   const autoTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const manualTimeZone = "Asia/Tokyo"; // store.get("timezone")?.value;
-  const isAuto = isAutoTimeZone; // temporarily hardcoded, will be replaced with user-selected setting from settings
-
-  const timeZone = isAuto ? autoTimeZone : manualTimeZone;
+  const timeZone = isAutoTimeZone ? autoTimeZone : manualTimeZone;
 
   const formatDateTime = (is24Hour: boolean) => {
     const dateSection = Intl.DateTimeFormat(undefined, {

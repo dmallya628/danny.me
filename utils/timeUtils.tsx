@@ -1,3 +1,3 @@
-import { getTimeZones, rawTimeZones, timeZonesNames } from "@vvo/tzdb"; 
+import { getTimeZones } from "@vvo/tzdb";
 
 export const getAvailableTimeZones = getTimeZones();

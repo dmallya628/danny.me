@@ -52,6 +52,7 @@ export default function RootLayout({
             enableSystem={true}
             enableColorScheme={true}
             defaultTheme="light"
+            themes={["light", "dark", "mono"]}
           >
             {children}
           </ThemeProvider>

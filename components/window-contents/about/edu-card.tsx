@@ -1,53 +1,31 @@
 import Image from "next/image";
-import Link from "next/link";
 
 export default function EducationCard({
   heading,
-  year,
   subtext,
-  link,
+  badgeSrc,
+  badgeYear,
 }: {
   heading: string;
-  year: string;
-  subtext: string;
-  link: string;
+  subtext: string[];
+  badgeSrc: string;
+  badgeYear: string;
 }) {
   return (
-    <div className="mb-12">
-      {/* top row section */}
-      <div className="flex flex-row items-center gap-5 px-1 py-2">
-        {/* icon */}
-        <Link href={link}>
-          <div className="relative w-7 h-7 ml-3">
-            <Image
-              src="/light/about/ext-link.svg"
-              alt="link"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </Link>
-
-        {/* heading + line + year group */}
-        <div className="flex flex-row items-center gap-2 flex-grow h-6">
-          <h4 className="text-lg font-normal whitespace-nowrap">{heading}</h4>
-
-          <div className="relative flex-grow h-[1rem]">
-            <Image
-              src="/light/about/line.svg"
-              alt="line"
-              fill
-              className="object-contain"
-            />
-          </div>
-
-          <p className="text-lg font-normal whitespace-nowrap mr-9">{year}</p>
-        </div>
-      </div>
-
-      {/* subtext */}
+    <div className="flex items-center gap-4">
+      <Image src={badgeSrc} alt={badgeYear} width={60} height={50} />
       <div>
-        <p className="text-sm font-normal indent-16">{subtext}</p>
+        <h4 className="font-bold text-lg font-[family-name:var(--font-space-grotesk)]">
+          {heading}
+        </h4>
+        <p className="text-xs text-[#3f3f3f] font-[family-name:var(--font-ibm-plex-mono)]">
+          {subtext.map((line, i) => (
+            <span key={line}>
+              {line}
+              {i < subtext.length - 1 && <br />}
+            </span>
+          ))}
+        </p>
       </div>
     </div>
   );

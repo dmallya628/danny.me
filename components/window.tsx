@@ -25,7 +25,7 @@ export default function Window({
 }) {
   return (
     <motion.div
-      className="fixed bg-[var(--window-accent)] items-center w-[90vw] max-w-[500px] h-[80vh] max-h-[400px] md:max-h-[500px] rounded-xs shadow-xl"
+      className="fixed bg-[var(--surface-frame)] items-center w-[90vw] max-w-[500px] h-[80vh] max-h-[400px] md:max-h-[500px] rounded-sm shadow-xl"
       style={{
         zIndex,
         top: "20%",
@@ -67,8 +67,8 @@ export default function Window({
       </div>
       {/* window content */}
       <div
-        className={`${styles.windowContent} overflow-auto scrollbar-thin text-[var(--foreground)] rounded-b-sm border-[2.5] border-t-0 border-[var(--window-border)]`}
-        onPointerDownCapture={(e) => {
+        className={`${styles.windowContent} overflow-auto scrollbar-thin text-[var(--near-black)] rounded-b-sm border-[2.5] border-t-0 border-[var(--near-black)]`}
+        onPointerDown={(e) => {
           e.stopPropagation();
           focus?.();
         }}

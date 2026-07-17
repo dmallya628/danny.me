@@ -5,7 +5,7 @@ import { useLocale as useNextIntlLocale } from "next-intl";
 import { setLocale } from "@/app/actions/locale";
 
 export const LANGUAGE_LABELS: Record<string, string> = {
-  en: "English",
+  en: "ENG",
   ko: "한국어",
   zh: "中文",
 };
