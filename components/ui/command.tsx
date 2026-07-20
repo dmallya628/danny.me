@@ -5,6 +5,11 @@ import { ComponentProps } from "react";
 import { Search } from "lucide-react";
 import clsx from "clsx";
 
+// App-styled wrapper around the `cmdk` package's fuzzy-filtering list
+// primitives. Paired with Popover (see popover.tsx) to build the searchable
+// "Nearest City" picker — cmdk itself handles the filtering as the user
+// types into CommandInput, matching against each CommandItem's `value`.
+
 export function Command({ className, ...props }: ComponentProps<typeof CommandPrimitive>) {
   return (
     <CommandPrimitive
@@ -47,6 +52,7 @@ export function CommandList({
   );
 }
 
+/** Shown by cmdk automatically when the current search matches nothing. */
 export function CommandEmpty(props: ComponentProps<typeof CommandPrimitive.Empty>) {
   return (
     <CommandPrimitive.Empty className="py-4 text-center text-sm opacity-60" {...props} />
@@ -69,6 +75,8 @@ export function CommandItem({
   return (
     <CommandPrimitive.Item
       className={clsx(
+        // data-[selected=true] is cmdk's keyboard/pointer-highlight state
+        // (distinct from "chosen" — it just means "currently highlighted").
         "flex cursor-pointer select-none items-center gap-2 rounded-xs px-3 py-2 text-sm outline-none data-[selected=true]:bg-[var(--surface-hover)]",
         className
       )}

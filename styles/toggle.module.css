@@ -14,11 +14,13 @@
 .toggleContainer.on {
   background-color: var(--standard-action);
   justify-content: flex-end;
+  box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.75);
 }
 
 .toggleContainer.off {
   background-color: var(--disabled);
   justify-content: flex-start;
+  box-shadow: none;
 }
 
 .toggleHandle {

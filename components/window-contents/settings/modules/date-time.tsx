@@ -2,9 +2,19 @@
 
 import { useState, useEffect } from "react";
 
+/**
+ * Live clock shown in the navbar. Ticks every second and formats the
+ * current time in either the auto-detected browser time zone or a
+ * manually-selected one, depending on `isAutoTimeZone`.
+ *
+ * State (which zone is "manual", whether auto-detect is on) is owned by
+ * app/page.tsx and passed down as props — this component is a pure
+ * formatter, it doesn't read cookies or manage its own time-zone state.
+ */
 export default function DateTime({
   is24Hour,
   isAutoTimeZone,
+  /** IANA zone name (e.g. "Asia/Tokyo") used when isAutoTimeZone is false. */
   manualTimeZone,
 }: {
   is24Hour: boolean;

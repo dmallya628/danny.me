@@ -9,6 +9,9 @@ import { ThemeProvider } from "next-themes";
 import "@/styles/globals.css";
 import { NextIntlClientProvider } from "next-intl";
 
+// Each font is loaded once and exposed as a CSS variable so individual
+// components can opt into a specific typeface via a Tailwind arbitrary-value
+// font utility instead of a global font-family.
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],

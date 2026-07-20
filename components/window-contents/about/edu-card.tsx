@@ -1,5 +1,11 @@
 import Image from "next/image";
 
+/**
+ * A single education entry in the About window's Education card: a
+ * pre-rendered "star badge" image showing the graduation year (badgeSrc —
+ * the year is baked into the SVG art itself, not overlaid as text) next to
+ * the school name and a short multi-line description.
+ */
 export default function EducationCard({
   heading,
   subtext,
@@ -7,8 +13,10 @@ export default function EducationCard({
   badgeYear,
 }: {
   heading: string;
+  /** Each string renders as its own line (joined with <br/>), e.g. degree + honors. */
   subtext: string[];
   badgeSrc: string;
+  /** Used only as the badge image's alt text — the visible year comes from the image itself. */
   badgeYear: string;
 }) {
   return (

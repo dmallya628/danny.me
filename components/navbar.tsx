@@ -9,15 +9,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
+/**
+ * Fixed top bar: site title, live clock, and a language dropdown. Rendered
+ * once by app/page.tsx, outside the desktop/window stacking context.
+ *
+ * Note: this bar renders at z-60 (see styles/nav.module.css's z-60 utility)
+ * while the desktop content area below it is deliberately raised to z-70 in
+ * page.tsx so that maximized/dragged windows can render above the navbar
+ * instead of sliding underneath it.
+ */
 export default function Navbar({
   is24Hour,
   isAutoTimeZone,
   manualTimeZone,
+  animate = true,
 }: {
   is24Hour: boolean;
   isAutoTimeZone: boolean;
   manualTimeZone: string;
+  /** Forwarded to the language Button so it respects the site-wide Animations setting. */
+  animate?: boolean;
 }) {
   const { locale, switchLocale, labels } = useLocaleSwitch();
 
@@ -30,9 +43,17 @@ export default function Navbar({
         <span className="font-semibold text-base font-[family-name:var(--font-ibm-plex-mono)]" suppressHydrationWarning>
           <TimeSwitch is24Hour={is24Hour} isAutoTimeZone={isAutoTimeZone} manualTimeZone={manualTimeZone} />
         </span>
+        {/* Language switcher: shows the current locale's label; opening it
+            lists every supported locale as an explicit choice (previously
+            this just cycled to the next locale on click). */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="font-black cursor-pointer rounded-xs px-3 py-1.5 mx-5 outline-[3] outline-black shadow-md hover:scale-[1.08] transition-transform duration-200 ease-in-out bg-[var(--title-bar)] font-[family-name:var(--font-space-grotesk)]">
-            {labels[locale]}
+          <DropdownMenuTrigger asChild>
+            <Button
+              animate={animate}
+              className="mx-5 px-3 py-1.5 font-black bg-[var(--title-bar)] font-[family-name:var(--font-space-grotesk)]"
+            >
+              {labels[locale]}
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {Object.entries(labels).map(([code, label]) => (

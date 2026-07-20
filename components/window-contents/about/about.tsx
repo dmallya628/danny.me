@@ -3,7 +3,12 @@ import EducationCard from "./edu-card";
 import ConnectCard from "./connect-card";
 import AboutCard from "./about-card";
 import styles from "@/styles/window.module.css";
+import { Button } from "@/components/ui/button";
 
+// "with-shadow" icon assets already bundle their own colored background
+// square + hard drop shadow baked into the SVG (confirmed by inspecting the
+// files: e.g. unity's fill="#E8E8E8" matches the Figma design exactly), so
+// they're used as-is here rather than composing a background + icon by hand.
 const TOOLS = [
   { name: "Unity Engine", icon: "/light/about/with-shadow/unity icon.svg" },
   { name: "Figma", icon: "/light/about/with-shadow/figma icon.svg" },
@@ -11,12 +16,18 @@ const TOOLS = [
   { name: "Blender", icon: "/light/about/with-shadow/blender icon.svg" },
 ];
 
-export default function About() {
+/**
+ * Content of the "about.pdf" window: profile card, Education, Tools, and
+ * Connect sections, populated from the Figma design file. LinkedIn/GitHub
+ * and the Contact Form button currently point at "#" placeholders — swap in
+ * real URLs when available.
+ */
+export default function About({ animate = true }: { animate?: boolean }) {
   return (
     <div className="p-4 font-[family-name:var(--font-inter)] space-y-7 antialiased">
       {/* image + bio */}
       <div
-        className={`${styles.windowCard} flex flex-col md:flex-row rounded-sm shadow-lg border border-[var(--near-black)] items-center md:items-start gap-5 px-3 py-6`}
+        className={`${styles.windowCard} flex flex-col md:flex-row rounded-sm shadow-[3px_3px_0px_0px_black] border border-[var(--near-black)] items-center md:items-start gap-5 px-3 py-6`}
       >
         {/* avatar */}
         <div className="w-32 h-32 shrink-0 ml-2 rounded-full border-3 border-[var(--near-black)] overflow-hidden">
@@ -71,6 +82,7 @@ export default function About() {
       {/* connection section*/}
       <AboutCard title="Connect">
         <div className="flex gap-10 justify-center">
+          {/* href="#" placeholders — replace with real profile URLs */}
           <ConnectCard
             icon={
               <Image
@@ -96,12 +108,13 @@ export default function About() {
             link="#"
           />
         </div>
-        <a
-          href="#"
-          className="self-center cursor-pointer bg-[var(--standard-action)] text-[var(--near-black)] py-2 px-4 rounded-sm border-2 border-[var(--near-black)] hover:scale-105 duration-150 ease-in-out font-bold text-center"
+        <Button
+          asChild
+          animate={animate}
+          className="self-center bg-[var(--standard-action)] px-4 py-2 font-bold"
         >
-          Contact Form
-        </a>
+          <a href="#">Contact Form</a>
+        </Button>
       </AboutCard>
     </div>
   );

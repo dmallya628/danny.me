@@ -3,7 +3,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import DesktopIcon from "@/components/icons/desktop-icon";
-import ThemedIcon from "@/components/icons/themed-icon";
 
 import Navbar from "@/components/navbar";
 import Window from "@/components/window";
@@ -16,9 +15,17 @@ import TicTacToe from "@/components/window-contents/tictactoe";
 import TimeZoneSelection from "@/components/window-contents/time-zone-selection";
 import { setIsAutoTimezone, setTimeZone } from "@/app/actions/time-zone";
 
+// The 5 "real" desktop apps, each with its own icon. The Time Zone
+// Selection window is deliberately NOT one of these — it has no desktop
+// icon and only appears contextually (see the isAutoTimeZone-driven render
+// below), so it's tracked separately via AnyWindowId instead.
 type WindowId = "about" | "portfolio" | "studio" | "settings" | "tictactoe";
 type AnyWindowId = WindowId | "timeZoneSelection";
 
+// Single source of truth for every desktop icon + its window: which desktop
+// column it sits in, its light/dark icon assets, and the window chrome
+// (title, title-bar favicon) it opens. Rendering both the icon grid and the
+// window list from this one array keeps them from drifting out of sync.
 const WINDOWS: {
   id: WindowId;
   column: "left" | "middle" | "right";
@@ -85,6 +92,10 @@ const WINDOWS: {
   },
 ];
 
+// Derive each window's starting stacking order from WINDOWS, then append
+// the Time Zone Selection window's own initial z-index on top — avoids
+// hand-maintaining a second parallel object that could drift out of sync
+// with WINDOWS.
 const initialZIndices = WINDOWS.reduce((acc, w, i) => {
   acc[w.id] = 1000 + i;
   return acc;
@@ -97,10 +108,16 @@ export default function HomePage() {
   // system settings functions
   const [is24Hour, set24Hour] = useState(false);
   const [isAutoTimeZone, setAutoTimeZone] = useState(true);
+  const [animationsEnabled, setAnimationsEnabled] = useState(true);
+  // Seeded from the browser's real zone so there's a sane default before the
+  // cookie-read effect below has a chance to run (SSR has no access to it).
   const [manualTimeZone, setManualTimeZoneState] = useState(
     () => Intl.DateTimeFormat().resolvedOptions().timeZone
   );
 
+  // One-time hydration from cookies on mount (can't read cookies during SSR
+  // for a "use client" component, so this has to happen client-side after
+  // the initial render rather than as the useState initializer above).
   useEffect(() => {
     const isAutoMatch = document.cookie.match(/(?:^|; )isAutoTimezone=([^;]+)/);
     if (isAutoMatch) setAutoTimeZone(isAutoMatch[1] === "true");
@@ -109,12 +126,37 @@ export default function HomePage() {
     if (tzMatch) setManualTimeZoneState(decodeURIComponent(tzMatch[1]));
   }, []);
 
+  // Tracks whether the user has explicitly closed the Time Zone Selection
+  // popup via its own X button. Kept separate from isAutoTimeZone (rather
+  // than reusing it to also mean "popup closed") so that closing the popup
+  // doesn't silently flip automatic detection back on — see
+  // toggleAutoTimeZone/dismissTimeZonePopup below.
+  const [isTimeZonePopupDismissed, setTimeZonePopupDismissed] = useState(false);
+
   const toggleAutoTimeZone = () => {
     const next = !isAutoTimeZone;
     setAutoTimeZone(next);
     setIsAutoTimezone(next);
-    if (!next) bringWindowToFront("timeZoneSelection");
+    if (next) {
+      // Re-sync the "manual" pick to the browser's real zone whenever automatic
+      // detection is turned back on, so a stale manual choice (e.g. Tokyo from a
+      // previous manual session) never resurfaces as the default the next time
+      // the user switches automatic detection off again.
+      const detectedTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      setManualTimeZoneState(detectedTimeZone);
+      setTimeZone(detectedTimeZone);
+    } else {
+      // Reset the dismissed flag so turning automatic detection off always
+      // re-shows the popup, even if the user had previously closed it.
+      setTimeZonePopupDismissed(false);
+      bringWindowToFront("timeZoneSelection");
+    }
   };
+
+  // The popup's own close (X) button: hides the popup WITHOUT touching
+  // isAutoTimeZone, so a manually-picked city stays in effect after closing
+  // instead of being discarded by an implicit "turn automatic back on".
+  const dismissTimeZonePopup = () => setTimeZonePopupDismissed(true);
 
   const selectManualTimeZone = (timeZone: string) => {
     setManualTimeZoneState(timeZone);
@@ -137,6 +179,8 @@ export default function HomePage() {
     Math.max(...Object.values(initialZIndices))
   );
 
+  // Click-to-front: bump the target window's z-index one above whatever the
+  // current highest is, and remember the new highest for next time.
   const bringWindowToFront = (id: AnyWindowId) => {
     const newZIndex = highestZIndex + 1;
     setZIndices((prev) => ({ ...prev, [id]: newZIndex }));
@@ -152,8 +196,11 @@ export default function HomePage() {
     setOpenWindows((prev) => ({ ...prev, [id]: false }));
   };
 
+  // What each window actually renders inside its chrome. Kept as a lookup
+  // object (rather than a switch inside the render loop below) so adding a
+  // new window only means adding one WINDOWS entry + one entry here.
   const windowContent: Record<WindowId, React.ReactNode> = {
-    about: <About />,
+    about: <About animate={animationsEnabled} />,
     portfolio: <Portfolio />,
     studio: <Studio />,
     settings: (
@@ -162,6 +209,8 @@ export default function HomePage() {
         onToggle24Hour={() => set24Hour(!is24Hour)}
         isAutomaticTimeZone={isAutoTimeZone}
         onToggleAutomaticTimeZone={toggleAutoTimeZone}
+        animationsEnabled={animationsEnabled}
+        onToggleAnimations={() => setAnimationsEnabled((a) => !a)}
       />
     ),
     tictactoe: <TicTacToe />,
@@ -171,10 +220,14 @@ export default function HomePage() {
     <DesktopIcon
       key={w.id}
       title={w.desktopLabel}
-      icon={
-        <ThemedIcon light={w.desktopIcon.light} dark={w.desktopIcon.dark} />
-      }
+      light={w.desktopIcon.light}
+      dark={w.desktopIcon.dark}
       onClick={() => openWindow(w.id)}
+      animate={animationsEnabled}
+      // Every desktop icon is above the fold and visible on first paint, so
+      // all of them are legitimate LCP candidates — mark them all priority
+      // rather than guessing which one the browser will actually pick.
+      priority
     />
   );
 
@@ -184,11 +237,19 @@ export default function HomePage() {
         is24Hour={is24Hour}
         isAutoTimeZone={isAutoTimeZone}
         manualTimeZone={manualTimeZone}
+        animate={animationsEnabled}
       />
       <div
         ref={desktopRef}
         className="fixed w-full top-10 desktop-content"
-        style={{ zIndex: 1 }}
+        // Raised above the navbar's own z-60 (see nav.module.css) so that
+        // this whole subtree — and every window inside it, regardless of
+        // its own z-index — forms a stacking context that renders above the
+        // navbar. Without this, windows would be capped below the navbar in
+        // the global stacking order (their z-index of 1000+ only matters
+        // *within* this container, not against siblings outside it), which
+        // previously caused maximized windows to render underneath the navbar.
+        style={{ zIndex: 70 }}
       >
         {/* main content */}
         <main className="flex justify-start items-start gap-x-15 gap-y-10 mt-5 px-5">
@@ -220,24 +281,30 @@ export default function HomePage() {
               dragContainerRef={desktopRef}
               zIndex={zIndices[w.id]}
               focus={() => bringWindowToFront(w.id)}
+              animate={animationsEnabled}
             >
               {windowContent[w.id]}
             </Window>
           ))}
-          {/* time zone selection pops up only while automatic detection is off */}
-          {!isAutoTimeZone && (
+          {/* Time Zone Selection has no desktop icon of its own — its
+              visibility is entirely derived from the automatic-detection
+              toggle (and whether the user has since dismissed it), rather
+              than being opened/closed like the windows above. */}
+          {!isAutoTimeZone && !isTimeZonePopupDismissed && (
             <Window
               key="timeZoneSelection"
               favIcon="/window/title-bar-icons/settings.svg"
               title="settings"
-              onClose={toggleAutoTimeZone}
+              onClose={dismissTimeZonePopup}
               dragContainerRef={desktopRef}
               zIndex={zIndices.timeZoneSelection}
               focus={() => bringWindowToFront("timeZoneSelection")}
+              animate={animationsEnabled}
             >
               <TimeZoneSelection
                 manualTimeZone={manualTimeZone}
                 onSelectTimeZone={selectManualTimeZone}
+                animate={animationsEnabled}
               />
             </Window>
           )}
@@ -246,3 +313,4 @@ export default function HomePage() {
     </div>
   );
 }
+
