@@ -49,13 +49,28 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${inter.variable} ${gasoekOne.variable} antialiased max-h-screen`}
       >
+        {/* Shared filter for DesktopIcon's hard-shadow silhouette (see
+            components/icons/desktop-icon.tsx). Thresholds the alpha channel
+            to fully opaque/transparent before flattening to black, so
+            partially-transparent icon fills (e.g. the disc icon's
+            background-tinted center hole) are dropped instead of
+            rendering as a muddy tinted smudge. */}
+        <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+          <filter id="hard-shadow-silhouette" colorInterpolationFilters="sRGB">
+            <feComponentTransfer in="SourceAlpha" result="thresholded">
+              <feFuncA type="discrete" tableValues="0 1" />
+            </feComponentTransfer>
+            <feFlood floodColor="black" result="flood" />
+            <feComposite in="flood" in2="thresholded" operator="in" />
+          </filter>
+        </svg>
         <NextIntlClientProvider>
           {/* change default theme to "system" after dark mode update */}
           <ThemeProvider
             enableSystem={true}
             enableColorScheme={true}
-            defaultTheme="light"
-            themes={["light", "dark", "mono"]}
+            defaultTheme="system"
+            themes={["light", "dark"]}
           >
             {children}
           </ThemeProvider>

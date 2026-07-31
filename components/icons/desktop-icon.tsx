@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import ThemedIcon from "./themed-icon";
+import IconHardShadow from "./icon-hard-shadow";
 
 /**
  * A clickable desktop icon (opens a window on click) styled after classic
@@ -38,17 +39,7 @@ export default function DesktopIcon({
       className="cursor-pointer p-3 rounded-md text-center flex flex-col items-center"
     >
       <div className="relative w-24 h-24">
-        {/* Hard shadow silhouette: the same icon rendered a second time,
-            flattened to solid black via a brightness(0) filter and offset
-            4px down-right. This works for any icon art without needing a
-            second "with-shadow" asset per icon. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 translate-x-1 translate-y-1 pointer-events-none"
-          style={{ filter: "brightness(0)" }}
-        >
-          <ThemedIcon light={light} dark={dark} priority={priority} />
-        </div>
+        <IconHardShadow light={light} dark={dark} priority={priority} />
         {/* Real icon: hover scale (only when animate is on) + press-into-shadow
             bounce. On tap it moves to the exact same (4px, 4px) offset as the
             silhouette above, visually covering it — that's what reads as

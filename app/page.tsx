@@ -33,28 +33,32 @@ const WINDOWS: {
   desktopIcon: { light: string; dark: string };
   windowTitle: string;
   favIcon: string;
+  /** Design-intended window size in px, read off each window's Figma frame — see Window's width/height props. */
+  size: { width: number; height: number };
 }[] = [
   {
     id: "about",
     column: "left",
     desktopLabel: "about.pdf",
     desktopIcon: {
-      light: "/light/desktop/no-shadow/file.svg",
-      dark: "/dark/desktop/file.svg",
+      light: "/light/desktop/icons/file.svg",
+      dark: "/dark/desktop/icons/file.svg",
     },
     windowTitle: "about.pdf",
     favIcon: "/window/title-bar-icons/file.svg",
+    size: { width: 540, height: 470 },
   },
   {
     id: "portfolio",
     column: "left",
     desktopLabel: "portfolio",
     desktopIcon: {
-      light: "/light/desktop/no-shadow/folder.svg",
-      dark: "/dark/desktop/folder.svg",
+      light: "/light/desktop/icons/folder.svg",
+      dark: "/dark/desktop/icons/folder.svg",
     },
     windowTitle: "portfolio",
     favIcon: "/window/title-bar-icons/folder.svg",
+    size: { width: 650, height: 445 },
   },
   {
     id: "studio",
@@ -62,33 +66,36 @@ const WINDOWS: {
     // replace the studio_loading icon with the studio icon when studio site is published
     desktopLabel: "studio_",
     desktopIcon: {
-      light: "/light/desktop/no-shadow/disc-temp.svg",
-      dark: "/dark/desktop/studio_loading.svg", // TODO: asset missing from public/dark/desktop
+      light: "/light/desktop/icons/disc.svg",
+      dark: "/dark/desktop/icons/disc.svg",
     },
     windowTitle: "studio",
-    favIcon: "/window/title-bar-icons/disc-temp.svg",
+    favIcon: "/window/title-bar-icons/disc.svg",
+    size: { width: 532, height: 242 },
   },
   {
     id: "settings",
     column: "middle",
     desktopLabel: "settings",
     desktopIcon: {
-      light: "/light/desktop/no-shadow/settings.svg",
-      dark: "/dark/desktop/settings.svg",
+      light: "/light/desktop/icons/gear.svg",
+      dark: "/dark/desktop/icons/gear.svg",
     },
     windowTitle: "site preferences",
     favIcon: "/window/title-bar-icons/settings.svg",
+    size: { width: 540, height: 470 },
   },
   {
     id: "tictactoe",
     column: "right",
     desktopLabel: "tictactoe",
     desktopIcon: {
-      light: "/light/desktop/no-shadow/grid.svg",
-      dark: "/dark/desktop/tictactoe.svg", // TODO: asset missing from public/dark/desktop
+      light: "/light/desktop/icons/grid.svg",
+      dark: "/dark/desktop/icons/grid.svg",
     },
     windowTitle: "tictactoe",
     favIcon: "/window/title-bar-icons/grid.svg",
+    size: { width: 500, height: 650 },
   },
 ];
 
@@ -104,6 +111,9 @@ initialZIndices.timeZoneSelection = 1000 + WINDOWS.length;
 
 export default function HomePage() {
   const desktopRef = useRef<HTMLDivElement>(null);
+  // Anchor for the Time Zone Selection popup, which spawns centered over —
+  // and blurs — the Settings window that triggers it.
+  const settingsWindowRef = useRef<HTMLDivElement>(null);
 
   // system settings functions
   const [is24Hour, set24Hour] = useState(false);
@@ -275,6 +285,7 @@ export default function HomePage() {
           {WINDOWS.filter((w) => openWindows[w.id]).map((w) => (
             <Window
               key={w.id}
+              ref={w.id === "settings" ? settingsWindowRef : undefined}
               favIcon={w.favIcon}
               title={w.windowTitle}
               onClose={() => closeWindow(w.id)}
@@ -282,6 +293,13 @@ export default function HomePage() {
               zIndex={zIndices[w.id]}
               focus={() => bringWindowToFront(w.id)}
               animate={animationsEnabled}
+              width={w.size.width}
+              height={w.size.height}
+              blurred={
+                w.id === "settings"
+                  ? !isAutoTimeZone && !isTimeZonePopupDismissed
+                  : false
+              }
             >
               {windowContent[w.id]}
             </Window>
@@ -289,7 +307,9 @@ export default function HomePage() {
           {/* Time Zone Selection has no desktop icon of its own — its
               visibility is entirely derived from the automatic-detection
               toggle (and whether the user has since dismissed it), rather
-              than being opened/closed like the windows above. */}
+              than being opened/closed like the windows above. It spawns
+              centered over — and blurs — the Settings window (see above)
+              since that's what triggers it. */}
           {!isAutoTimeZone && !isTimeZonePopupDismissed && (
             <Window
               key="timeZoneSelection"
@@ -300,6 +320,9 @@ export default function HomePage() {
               zIndex={zIndices.timeZoneSelection}
               focus={() => bringWindowToFront("timeZoneSelection")}
               animate={animationsEnabled}
+              width={532}
+              height={325}
+              anchorRef={settingsWindowRef}
             >
               <TimeZoneSelection
                 manualTimeZone={manualTimeZone}

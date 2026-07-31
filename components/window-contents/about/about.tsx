@@ -1,7 +1,7 @@
 import Image from "next/image";
-import EducationCard from "./edu-card";
-import ConnectCard from "./connect-card";
-import AboutCard from "./about-card";
+import EducationCard from "./components/edu-card";
+import ConnectCard from "./components/connect-card";
+import AboutCard from "./components/about-card";
 import styles from "@/styles/window.module.css";
 import { Button } from "@/components/ui/button";
 
@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 // files: e.g. unity's fill="#E8E8E8" matches the Figma design exactly), so
 // they're used as-is here rather than composing a background + icon by hand.
 const TOOLS = [
-  { name: "Unity Engine", icon: "/light/about/with-shadow/unity icon.svg" },
-  { name: "Figma", icon: "/light/about/with-shadow/figma icon.svg" },
-  { name: "TouchDesigner", icon: "/light/about/with-shadow/touch designer icon.svg" },
-  { name: "Blender", icon: "/light/about/with-shadow/blender icon.svg" },
+  { name: "Unity Engine", icon: "/light/about/icons/unity.svg" },
+  { name: "Figma", icon: "/light/about/icons/figma.svg" },
+  { name: "TouchDesigner", icon: "/light/about/icons/touchdesigner.svg" },
+  { name: "Blender", icon: "/light/about/icons/blender.svg" },
 ];
 
 /**
@@ -52,14 +52,14 @@ export default function About({ animate = true }: { animate?: boolean }) {
       <AboutCard title="Education">
         <EducationCard
           heading="University of Maryland"
-          badgeSrc="/light/about/with-shadow/UMD-grad-date.svg"
+          badgeSrc="/light/about/icons/UMD-2027.svg"
           badgeYear="2027"
           subtext={["B.S. Information Science", "B.A. Immersive Media Design"]}
         />
         <hr className="border-t border-[var(--near-black)]" />
         <EducationCard
           heading="Academy of Health Sciences @ PGCC"
-          badgeSrc="/light/about/with-shadow/AHS-grad-date.svg"
+          badgeSrc="/light/about/icons/AHS-2023.svg"
           badgeYear="2023"
           subtext={["A.A. General Studies", "High School Diploma"]}
         />
@@ -86,26 +86,26 @@ export default function About({ animate = true }: { animate?: boolean }) {
           <ConnectCard
             icon={
               <Image
-                src="/light/about/with-shadow/linkedin.svg"
+                src="/light/about/icons/linkedin.svg"
                 alt="LinkedIn"
                 width={60}
                 height={60}
               />
             }
             title="LinkedIn"
-            link="#"
+            link="https://www.linkedin.com/in/daniel-mallya-71b928235/"
           />
           <ConnectCard
             icon={
               <Image
-                src="/light/about/with-shadow/github.svg"
+                src="/light/about/icons/github.svg"
                 alt="GitHub"
                 width={60}
                 height={60}
               />
             }
             title="GitHub"
-            link="#"
+            link="https://github.com/dmallya628"
           />
         </div>
         <Button

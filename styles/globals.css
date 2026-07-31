@@ -32,41 +32,8 @@
   --taskbar-height: 2.5rem;
 }
 
-/* first-pass derived palette, not final design values */
+/* first-pass derived palette, not final design values, originally monochrome */
 [data-theme="dark"] {
-  /* surfaces */
-  --surface-card: #1B1B17;
-  --surface-frame: #24241E;
-  --surface-frame-card: #2E2E26;
-  --surface-hover: #38382D;
-
-  /* greens */
-  --desktop-base: #2E3320;
-  --accent-core: #A8B466;
-
-  /* amber */
-  --title-bar: #C99A3A;
-
-  /* reds */
-  --standard-action: #C97A63;
-  --system-close: #C23764;
-  --pressed-state: #8A3B3B;
-
-  /* neutrals */
-  --disabled: #4A4744;
-  --mid-gray: #8C8C8C;
-  --near-black: #F2F0EA;
-
-  /* graphics */
-  --badge-red: #D97A5F;
-  --badge-blue: #7C97E8;
-
-  /* layout */
-  --taskbar-height: 2.5rem;
-}
-
-/* first-pass derived palette, not final design values */
-[data-theme="mono"] {
   /* surfaces */
   --surface-card: #F2F2F2;
   --surface-frame: #E8E8E8;

@@ -1,5 +1,4 @@
 .windowContent {
-  height: calc(100% - 3rem);
   background-color: var(--surface-frame);
   color: var(--near-black);
 }

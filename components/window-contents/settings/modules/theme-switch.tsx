@@ -15,7 +15,6 @@ const THEME_LABELS: Record<string, string> = {
   system: "System",
   light: "Light",
   dark: "Dark",
-  mono: "Monochrome",
 };
 
 /**

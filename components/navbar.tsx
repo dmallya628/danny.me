@@ -38,7 +38,7 @@ export default function Navbar({
     <div
       className={`${styles.navContent} fixed top-0 left-0 right-0 md:h-20 flex justify-between items-center px-3 md:px-6 text-xs md:text-sm shadow-sm border border-[var(--near-black)] z-60`}
     >
-      <span className="text-xl font-[family-name:var(--font-gasoek-one)]">D.ME</span>
+      <span className="text-xl tracking-[1.4px] font-[family-name:var(--font-gasoek-one)]">D.ME</span>
       <div className="flex items-center gap-4">
         <span className="font-semibold text-base font-[family-name:var(--font-ibm-plex-mono)]" suppressHydrationWarning>
           <TimeSwitch is24Hour={is24Hour} isAutoTimeZone={isAutoTimeZone} manualTimeZone={manualTimeZone} />
