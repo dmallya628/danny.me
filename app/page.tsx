@@ -111,9 +111,12 @@ initialZIndices.timeZoneSelection = 1000 + WINDOWS.length;
 
 export default function HomePage() {
   const desktopRef = useRef<HTMLDivElement>(null);
-  // Anchor for the Time Zone Selection popup, which spawns centered over —
-  // and blurs — the Settings window that triggers it.
+  // Anchors for popovers that spawn centered over — and blur — the window
+  // that triggered them: tictactoe's win/loss/draw popup over its own
+  // window, and the Time Zone Selection popup over Settings.
+  const tictactoeWindowRef = useRef<HTMLDivElement>(null);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
+  const [isTicTacToePopupOpen, setTicTacToePopupOpen] = useState(false);
 
   // system settings functions
   const [is24Hour, set24Hour] = useState(false);
@@ -223,7 +226,14 @@ export default function HomePage() {
         onToggleAnimations={() => setAnimationsEnabled((a) => !a)}
       />
     ),
-    tictactoe: <TicTacToe />,
+    tictactoe: (
+      <TicTacToe
+        animate={animationsEnabled}
+        onExit={() => closeWindow("tictactoe")}
+        anchorRef={tictactoeWindowRef}
+        onPopupOpenChange={setTicTacToePopupOpen}
+      />
+    ),
   };
 
   const renderDesktopIcon = (w: (typeof WINDOWS)[number]) => (
@@ -285,7 +295,13 @@ export default function HomePage() {
           {WINDOWS.filter((w) => openWindows[w.id]).map((w) => (
             <Window
               key={w.id}
-              ref={w.id === "settings" ? settingsWindowRef : undefined}
+              ref={
+                w.id === "tictactoe"
+                  ? tictactoeWindowRef
+                  : w.id === "settings"
+                  ? settingsWindowRef
+                  : undefined
+              }
               favIcon={w.favIcon}
               title={w.windowTitle}
               onClose={() => closeWindow(w.id)}
@@ -296,7 +312,9 @@ export default function HomePage() {
               width={w.size.width}
               height={w.size.height}
               blurred={
-                w.id === "settings"
+                w.id === "tictactoe"
+                  ? isTicTacToePopupOpen
+                  : w.id === "settings"
                   ? !isAutoTimeZone && !isTimeZonePopupDismissed
                   : false
               }
