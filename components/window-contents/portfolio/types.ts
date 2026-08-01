@@ -1,4 +1,29 @@
-/** A single item in a project's Gallery section — pictures, video, or audio about the project. */
+/**
+ * A single item in a project's Gallery section (rendered by
+ * gallery-section.tsx) — pictures, video, or audio about the project. This
+ * is a discriminated union on `type` rather than one shape with a bunch of
+ * optional fields: each media type needs genuinely different metadata to
+ * render well, and the union lets TypeScript enforce that per-variant
+ * instead of every gallery entry carrying fields that only apply to some
+ * types:
+ *
+ * - "image": `alt` is required, not optional — every <Image> needs real alt
+ *   text for accessibility, and there's no sensible generic fallback the
+ *   way there might be for, say, a decorative icon.
+ * - "video": `poster` is optional — a still frame shown before playback
+ *   starts. Without one, the <video> element just shows its first frame (or
+ *   nothing, in some browsers) until the user hits play, which is fine but
+ *   less polished; add one per-project once real footage exists.
+ * - "audio": `label` is required in place of `alt`/`poster` — an <audio>
+ *   element has no visual surface at all (see gallery-section.tsx, which
+ *   renders it as a plain full-width player), so the label is the *only*
+ *   way a viewer knows what they're about to listen to.
+ *
+ * Adding a new media type (e.g. a PDF or a 3D embed) means adding a new
+ * variant here, then handling it explicitly in gallery-section.tsx's
+ * tiles/audioItems split (and its render branch) — there's no default case,
+ * so TypeScript will flag the switch as non-exhaustive until it's handled.
+ */
 export type MediaItem =
   | { type: "image"; src: string; alt: string }
   | { type: "video"; src: string; poster?: string }
