@@ -1,13 +1,13 @@
 import styles from "@/styles/window.module.css";
 
 /**
- * A section card used inside the Settings window (Appearance, Date & Time,
- * Language): a cream card with a small floating title tab overlapping its
- * top-left corner. Distinct from AboutCard, which uses a full-width color
- * band header instead — Settings and About intentionally use different
- * header conventions per the design file.
+ * A section card with a small floating title tab overlapping its top-left
+ * corner — used in Settings (Appearance, Date & Time, Language) and the
+ * Portfolio project window (About, Media, Links). Distinct from AboutCard,
+ * which uses a full-width color band header instead — About intentionally
+ * uses a different header convention per the design file.
  */
-export default function SettingCard({
+export default function SectionCard({
   title,
   children,
 }: {
@@ -17,7 +17,7 @@ export default function SettingCard({
   return (
     <div className="relative px-2 mt-3">
       {/* floating title tab, positioned absolutely so it overlaps the card below */}
-      <div className={`${styles.windowCard} absolute -top-4 left-10 flex rounded-xl shadow-[2px_2px_0px_0px_black] border border-[var(--near-black)] items-center px-3 py-3`}>
+      <div className={`${styles.windowCard} absolute -top-4 left-10 flex rounded-xl shadow-[2px_2px_0px_0px_black] border border-[var(--near-black)] items-center px-8 py-3`}>
         <h3 className="font-bold text-lg">{title}</h3>
       </div>
       <div className={`${styles.windowCard} static flex flex-col rounded-xl bg-[var(--surface-frame-card)] shadow-[3px_3px_0px_0px_black] border border-[var(--near-black)] items-center md:items-start gap-5 px-3 py-5`}>

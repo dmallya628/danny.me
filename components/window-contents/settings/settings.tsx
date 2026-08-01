@@ -1,6 +1,6 @@
 "use client";
 
-import SettingCard from "./setting-card";
+import SectionCard from "@/components/ui/section-card";
 import ThemeSwitch from "./modules/theme-switch";
 import LangSwitch from "./modules/lang-switch";
 import ToggleSwitch from "./modules/toggle-switch";
@@ -29,7 +29,7 @@ export default function Settings({
   return (
     <div className="p-4 font-[family-name:var(--font-inter)] space-y-12 antialiased">
       {/* Appearance */}
-      <SettingCard key="Appearance" title="Appearance">
+      <SectionCard key="Appearance" title="Appearance">
         <div className="relative flex w-full items-center">
           <h4 className="font-semibold text-lg">Theme</h4>
           <div className="ml-auto">
@@ -49,10 +49,10 @@ export default function Settings({
             />
           </div>
         </div>
-      </SettingCard>
+      </SectionCard>
 
       {/* Date & Time */}
-      <SettingCard key="Date & Time" title="Date & Time">
+      <SectionCard key="Date & Time" title="Date & Time">
         {/* Automatic Time Zone Toggle */}
         <div className="relative flex w-full items-center">
           <h4 className="font-semibold max-w-[150px]">
@@ -77,12 +77,12 @@ export default function Settings({
             />
           </div>
         </div>
-      </SettingCard>
+      </SectionCard>
 
       {/* Language Settings */}
-      <SettingCard key="Language" title="Language">
+      <SectionCard key="Language" title="Language">
           <LangSwitch animate={animationsEnabled} />
-      </SettingCard>
+      </SectionCard>
     </div>
   );
 }

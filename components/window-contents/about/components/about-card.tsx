@@ -1,9 +1,9 @@
 /**
  * A section card used inside the About window (Education, Tools, Connect):
  * a solid amber header band above a cream body, matching the Figma design's
- * "full-width color band" header style. Distinct from SettingCard, which
- * uses a small floating tab instead — the two windows intentionally use
- * different header conventions per the design file.
+ * "full-width color band" header style. Distinct from SectionCard, which
+ * uses a small floating tab instead — About intentionally uses a different
+ * header convention per the design file.
  */
 export default function AboutCard({
   title,
