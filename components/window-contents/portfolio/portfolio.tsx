@@ -32,7 +32,15 @@ export default function Portfolio({
     // just for this window, so the Toolbar's bottom border and Sidebar's
     // divider (inside BrowserView) actually reach the window's true edges
     // instead of stopping 8px short of them.
-    <div className="-m-2 flex flex-col">
+    //
+    // h-full continues that same "reach the true edges" idea vertically:
+    // Window's content wrapper only has a real (non-auto) height while the
+    // window is maximized (see the comment on that div in window.tsx), so
+    // this only kicks in then. When it does, it hands a real height down to
+    // BrowserView's row (flex-1 min-h-0 there), which is what lets
+    // Sidebar's divider border reach the bottom of a maximized window
+    // instead of stopping wherever the shortest column of content ends.
+    <div className="-m-2 flex h-full flex-col">
       <Toolbar
         canGoBack={false}
         canGoForward={false}

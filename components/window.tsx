@@ -201,7 +201,19 @@ const Window = forwardRef<
           focus?.();
         }}
       >
-        <div className="p-2">{children}</div>
+        {/* h-full only does anything when this element's parent (the
+            overflow-auto div above) has a *real* computed height rather than
+            an auto/shrink-wrapped one — which, per the isMaximized style
+            block above, is only true while the window is maximized (fixed
+            "calc(100vh - 5rem)"). In the default, unmaximized state that
+            parent has no explicit height, so percentage heights resolve to
+            auto per the CSS spec and this is a no-op — content keeps
+            shrink-wrapping exactly as before. That's what lets a window's
+            content (e.g. Portfolio, via its own h-full + flex chain) opt
+            into filling all available space specifically when maximized,
+            without every window needing to coordinate with Window's
+            isMaximized state directly. */}
+        <div className="p-2 h-full">{children}</div>
       </div>
     </motion.div>
   );

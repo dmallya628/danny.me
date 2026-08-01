@@ -40,8 +40,15 @@ export default function BrowserView({
     // No shared padding/gap on this row — Sidebar carries its own inset (see
     // sidebar.tsx) so its divider border starts flush against the Toolbar's
     // bottom border above it, with no gap between the two lines.
-    <div className="flex">
-      <Sidebar selectedTool={selectedTool} onSelectTool={setSelectedTool} />
+    //
+    // flex-1 min-h-0 lets this row grow to fill whatever height Portfolio's
+    // own h-full column has available (only a real constraint when the
+    // window is maximized — see window.tsx) so Sidebar's divider border
+    // reaches the bottom of the window instead of stopping at content
+    // height, and both children stretch to match via the row's default
+    // align-items: stretch.
+    <div className="flex flex-1 min-h-0">
+      <Sidebar selectedTool={selectedTool} onSelectTool={setSelectedTool} animate={animate} />
       <div className="min-w-0 flex-1 p-4">
         {view === "grid" ? (
           <ProjectGrid projects={filtered} onOpenProject={onOpenProject} animate={animate} />
