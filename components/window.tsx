@@ -49,6 +49,8 @@ const Window = forwardRef<
     anchorRef?: RefObject<HTMLElement | null>;
     /** Blurs and disables interaction/dragging — used on a window while a popover it spawned (anchored to it) is open, so the popover reads as modal to that window. */
     blurred?: boolean;
+    /** Some windows (Time Zone Selection, Studio, Tictactoe) aren't meant to be maximized per the design — when false, the maximize button is omitted entirely rather than rendered disabled. */
+    maximizable?: boolean;
   }
 >(function Window(
   {
@@ -64,6 +66,7 @@ const Window = forwardRef<
     height = 500,
     anchorRef,
     blurred = false,
+    maximizable = true,
   },
   ref
 ) {
@@ -151,18 +154,20 @@ const Window = forwardRef<
           {/* pressSize="sm" gives these small title-bar buttons a lighter
               shadow/press-shift than the app's default Button size, which
               would look oversized at 32px. */}
-          <Button
-            onClick={toggleMaximize}
-            pressSize="sm"
-            animate={animate}
-            className="w-8 h-8 bg-[var(--disabled)]"
-          >
-            {isMaximized ? (
-              <Minimize2 className="w-4 h-4 text-[var(--near-black)]" />
-            ) : (
-              <Maximize2 className="w-4 h-4 text-[var(--near-black)]" />
-            )}
-          </Button>
+          {maximizable && (
+            <Button
+              onClick={toggleMaximize}
+              pressSize="sm"
+              animate={animate}
+              className="w-8 h-8 bg-[var(--disabled)]"
+            >
+              {isMaximized ? (
+                <Minimize2 className="w-4 h-4 text-[var(--near-black)]" strokeWidth={3} />
+              ) : (
+                <Maximize2 className="w-4 h-4 text-[var(--near-black)]" strokeWidth={3} />
+              )}
+            </Button>
+          )}
           <Button
             onClick={onClose}
             pressSize="sm"

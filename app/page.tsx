@@ -8,19 +8,21 @@ import Navbar from "@/components/navbar";
 import Window from "@/components/window";
 
 import About from "@/components/window-contents/about/about";
-import Portfolio from "@/components/window-contents/portfolio";
+import Portfolio from "@/components/window-contents/portfolio/portfolio";
+import ProjectWindow from "@/components/window-contents/portfolio/components/project-window";
+import { Project } from "@/components/window-contents/portfolio/types";
 import Settings from "@/components/window-contents/settings/settings";
 import Studio from "@/components/window-contents/studio";
 import TicTacToe from "@/components/window-contents/tictactoe";
 import TimeZoneSelection from "@/components/window-contents/time-zone-selection";
 import { setIsAutoTimezone, setTimeZone } from "@/app/actions/time-zone";
 
-// The 5 "real" desktop apps, each with its own icon. The Time Zone
-// Selection window is deliberately NOT one of these — it has no desktop
-// icon and only appears contextually (see the isAutoTimeZone-driven render
-// below), so it's tracked separately via AnyWindowId instead.
+// The 5 "real" desktop apps, each with its own icon. Time Zone Selection and
+// an opened Portfolio project are deliberately NOT among these — neither has
+// a desktop icon of its own; both only appear contextually (see their
+// dedicated state below), so they're tracked separately via AnyWindowId.
 type WindowId = "about" | "portfolio" | "studio" | "settings" | "tictactoe";
-type AnyWindowId = WindowId | "timeZoneSelection";
+type AnyWindowId = WindowId | "timeZoneSelection" | "openProject";
 
 // Single source of truth for every desktop icon + its window: which desktop
 // column it sits in, its light/dark icon assets, and the window chrome
@@ -35,6 +37,8 @@ const WINDOWS: {
   favIcon: string;
   /** Design-intended window size in px, read off each window's Figma frame — see Window's width/height props. */
   size: { width: number; height: number };
+  /** Per the design, Studio and Tictactoe aren't meant to be resized to fullscreen — omitted (defaults to true) for every other window. */
+  maximizable?: boolean;
 }[] = [
   {
     id: "about",
@@ -72,6 +76,7 @@ const WINDOWS: {
     windowTitle: "studio",
     favIcon: "/window/title-bar-icons/disc.svg",
     size: { width: 532, height: 242 },
+    maximizable: false,
   },
   {
     id: "settings",
@@ -96,6 +101,7 @@ const WINDOWS: {
     windowTitle: "tictactoe",
     favIcon: "/window/title-bar-icons/grid.svg",
     size: { width: 500, height: 650 },
+    maximizable: false,
   },
 ];
 
@@ -117,6 +123,12 @@ export default function HomePage() {
   const tictactoeWindowRef = useRef<HTMLDivElement>(null);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
   const [isTicTacToePopupOpen, setTicTacToePopupOpen] = useState(false);
+
+  // The Portfolio project currently opened in its own separate Window (see
+  // the "openProject" Window block below) — null when none is open. Only
+  // one at a time: opening a different project while one is already open
+  // just swaps this window's content rather than stacking a second one.
+  const [openProject, setOpenProject] = useState<Project | null>(null);
 
   // system settings functions
   const [is24Hour, set24Hour] = useState(false);
@@ -209,12 +221,20 @@ export default function HomePage() {
     setOpenWindows((prev) => ({ ...prev, [id]: false }));
   };
 
+  // Opening a project (from Portfolio) both sets its content and brings its
+  // window to front — mirrors openWindow above, just for the one dynamic,
+  // desktop-icon-less window instead of a fixed WINDOWS entry.
+  const openProjectWindow = (project: Project) => {
+    setOpenProject(project);
+    bringWindowToFront("openProject");
+  };
+
   // What each window actually renders inside its chrome. Kept as a lookup
   // object (rather than a switch inside the render loop below) so adding a
   // new window only means adding one WINDOWS entry + one entry here.
   const windowContent: Record<WindowId, React.ReactNode> = {
     about: <About animate={animationsEnabled} />,
-    portfolio: <Portfolio />,
+    portfolio: <Portfolio animate={animationsEnabled} onOpenProject={openProjectWindow} />,
     studio: <Studio />,
     settings: (
       <Settings
@@ -311,6 +331,7 @@ export default function HomePage() {
               animate={animationsEnabled}
               width={w.size.width}
               height={w.size.height}
+              maximizable={w.maximizable ?? true}
               blurred={
                 w.id === "tictactoe"
                   ? isTicTacToePopupOpen
@@ -341,12 +362,35 @@ export default function HomePage() {
               width={532}
               height={325}
               anchorRef={settingsWindowRef}
+              maximizable={false}
             >
               <TimeZoneSelection
                 manualTimeZone={manualTimeZone}
                 onSelectTimeZone={selectManualTimeZone}
                 animate={animationsEnabled}
               />
+            </Window>
+          )}
+          {/* A Portfolio project also has no desktop icon and isn't part of
+              WINDOWS — it only exists once a project's been opened from
+              inside the Portfolio browser (see openProjectWindow above). */}
+          {openProject && (
+            <Window
+              key="openProject"
+              favIcon="/window/title-bar-icons/folder-open-project.svg"
+              title={openProject.name}
+              onClose={() => setOpenProject(null)}
+              dragContainerRef={desktopRef}
+              zIndex={zIndices.openProject}
+              focus={() => bringWindowToFront("openProject")}
+              animate={animationsEnabled}
+              // Matches the Figma "sample open project" frame's proportions
+              // (and About/Settings' own 540x470, which share the same
+              // header-card + stacked-section-card content pattern).
+              width={540}
+              height={470}
+            >
+              <ProjectWindow project={openProject} />
             </Window>
           )}
         </AnimatePresence>
