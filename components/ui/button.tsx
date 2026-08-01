@@ -7,16 +7,20 @@ import clsx from "clsx";
 /**
  * Neobrutalist press mechanic, hand-adapted from neobrutalism.dev's Button
  * (https://neobrutalism.dev): a hard, un-blurred offset shadow by default;
- * on hover/press the element shifts by exactly the shadow's offset and the
- * shadow disappears, reading as "pressed into" the shadow rather than a
- * separate depressed state. We don't use their cva/Tailwind-theme setup —
- * just plain arbitrary-value utilities — since this app doesn't extend
- * Tailwind's theme with their custom shadow tokens.
+ * on press (not hover) the element shifts by exactly the shadow's offset
+ * and the shadow disappears, reading as "pressed into" the shadow rather
+ * than a separate depressed state. Hover instead gets a small scale bounce
+ * — a lighter echo of DesktopIcon's own hover bounce, since these buttons
+ * are smaller and shouldn't compete with it. `active:scale-100` overrides
+ * the bounce while pressed so it doesn't fight the press-shift. We don't
+ * use their cva/Tailwind-theme setup — just plain arbitrary-value
+ * utilities — since this app doesn't extend Tailwind's theme with their
+ * custom shadow tokens.
  *
  * `pressSize` picks how large that shadow/shift is (small title-bar icon
  * buttons use "sm" so the effect doesn't look oversized against a 32px
  * button). `animate` is the site-wide Animations toggle: when false, the
- * hover state and eased transition are dropped entirely and only an
+ * hover bounce and eased transition are dropped entirely and only an
  * instant (non-eased) press-shift remains — see the retro-desktop research
  * in conversation: classic OSes had no hover feedback at all, only instant
  * click feedback.
@@ -25,13 +29,13 @@ const VARIANTS = {
   default: {
     shadow: "shadow-[3px_3px_0px_0px_black]",
     animated:
-      "transition-all duration-150 ease-in-out hover:translate-x-1 hover:translate-y-1 hover:shadow-none active:translate-x-1 active:translate-y-1 active:shadow-none",
+      "transition-all duration-150 ease-in-out hover:scale-105 active:translate-x-1 active:translate-y-1 active:scale-100 active:shadow-none",
     instant: "active:translate-x-1 active:translate-y-1 active:shadow-none",
   },
   sm: {
     shadow: "shadow-[1.5px_1.5px_0px_0px_black]",
     animated:
-      "transition-all duration-150 ease-in-out hover:translate-x-[1.5px] hover:translate-y-[1.5px] hover:shadow-none active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none",
+      "transition-all duration-150 ease-in-out hover:scale-105 active:translate-x-[1.5px] active:translate-y-[1.5px] active:scale-100 active:shadow-none",
     instant: "active:translate-x-[1.5px] active:translate-y-[1.5px] active:shadow-none",
   },
 } as const;

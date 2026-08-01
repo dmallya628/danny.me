@@ -20,9 +20,14 @@ export default function LangSwitch({ animate = true }: { animate?: boolean }) {
             onClick={() => switchLocale(code)}
             className={clsx(
               "ml-auto w-10 h-10 rounded-xs border-2 border-[var(--near-black)] shadow-[2px_2px_0px_0px_black] cursor-pointer",
-              // Only ease the selected-color swap when Animations is on;
-              // otherwise the swatch should snap instantly between states.
-              animate && "transition-colors duration-125 ease-in-out",
+              // Same press-into-shadow mechanic as the shared Button
+              // component (see components/ui/button.tsx): a small hover
+              // bounce, and the shift-into-shadow reserved for an actual
+              // click. Only enabled when Animations is on; otherwise the
+              // swatch just snaps instantly between selected states.
+              animate
+                ? "transition-all duration-150 ease-in-out hover:scale-105 active:translate-x-[2px] active:translate-y-[2px] active:scale-100 active:shadow-none"
+                : "active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
               locale === code ? "bg-[var(--standard-action)]" : "bg-[var(--disabled)]"
             )}
           />
